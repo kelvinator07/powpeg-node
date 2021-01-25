@@ -1,0 +1,31 @@
+name: Reproducible build
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    container: openjdk@sha256:335627a2118556b3f412287e08ac7febb8ecc46325dc6b3570db56f32d33938f
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install packages
+        run: |
+          apt-get update -y && apt-get install -y git curl gnupg
+
+      - name: Download Release key
+        run: |
+          gpg --keyserver https://secchannel.rsk.co/release.asc --recv-keys 1A92D8942171AFA951A857365DECF4415E3B8FA4
+
+      - name: Verify files integrity
+        run: |
+          gpg --verify --output SHA256SUMS SHA256SUMS.asc && sha256sum --check SHA256SUMS
+
+      - name: Build powpeg-node
+        run: |
+          ./configure.sh && ./gradlew --no-daemon clean build -x test
+
+      - name: Calculate hashes
+        run: |
+          sha256sum build/libs/*
