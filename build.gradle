@@ -128,9 +128,9 @@ tasks.withType(Jar) {
     reproducibleFileOrder = true
     dirMode = 0775
     fileMode = 0664
-    doLast {
-        stripJar(outputs.files.singleFile)
-    }
+    //doLast {
+    //    stripJar(outputs.files.singleFile)
+    //}
 }
 
 jar {
