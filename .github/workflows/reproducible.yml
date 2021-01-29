@@ -7,12 +7,12 @@ jobs:
     container: openjdk@sha256:335627a2118556b3f412287e08ac7febb8ecc46325dc6b3570db56f32d33938f
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
       - name: Install packages
         run: |
           apt-get update -y && apt-get install -y git curl gnupg
+
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: Download Release key
         run: |
