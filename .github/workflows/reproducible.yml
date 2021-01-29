@@ -33,6 +33,6 @@ jobs:
       - name: Export artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ steps.vars.outputs.tag }}
+          name: jars
           path: build/libs/
           
