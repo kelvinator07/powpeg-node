@@ -3,8 +3,9 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
-    container: openjdk@sha256:335627a2118556b3f412287e08ac7febb8ecc46325dc6b3570db56f32d33938f
+    runs-on: ubuntu-20.04
+    container: 
+      image: openjdk@sha256:335627a2118556b3f412287e08ac7febb8ecc46325dc6b3570db56f32d33938f
 
     steps:
       - name: Install packages
@@ -13,6 +14,10 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Set version
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
       - name: Download Release key
         run: |
@@ -27,12 +32,17 @@ jobs:
           ./configure.sh && ./gradlew --no-daemon clean build -x test
 
       - name: Calculate hashes
+        working-directory: build/libs
         run: |
-          sha256sum build/libs/*
+          sha256sum * > SHA256SUMS
+
+      - name: Print hashes
+        run: |
+          cat build/libs/SHA256SUMS
 
       - name: Export artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: jars
+          name: ${{ steps.vars.outputs.tag }}
           path: build/libs/
           
