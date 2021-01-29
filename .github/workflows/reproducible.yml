@@ -25,8 +25,14 @@ jobs:
       - name: Build powpeg-node
         run: |
           ./configure.sh && ./gradlew --no-daemon clean build -x test
-          jar tvf build/libs/federate-node-PAPYRUS-2.1.0.1-all.jar
 
       - name: Calculate hashes
         run: |
           sha256sum build/libs/*
+
+      - name: Export artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.vars.outputs.tag }}
+          path: build/libs/
+          
