@@ -18,6 +18,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
@@ -62,7 +63,7 @@ public class ReleaseCreationInformationGetterTest {
         when(blockStore.getChainBlockByNumber(666L)).thenReturn(block);
 
         ReceiptStore receiptStore = mock(ReceiptStore.class);
-        when(receiptStore.getInMainChain(rskTxHash.getBytes(), blockStore)).thenReturn(transactionInfo);
+        when(receiptStore.getInMainChain(rskTxHash.getBytes(), blockStore)).thenReturn(Optional.of(transactionInfo));
 
         ReleaseCreationInformationGetter information = new ReleaseCreationInformationGetter(
                 receiptStore,
@@ -137,8 +138,8 @@ public class ReleaseCreationInformationGetterTest {
         when(blockStore.getChainBlockByNumber(anyLong())).thenReturn(secondBlock);
 
         ReceiptStore receiptStore = mock(ReceiptStore.class);
-        when(receiptStore.getInMainChain(rskTxHash.getBytes(), blockStore)).thenReturn(transactionInfo);
-        when(receiptStore.getInMainChain(rskTxHashInSecondBlock.getBytes(), blockStore)).thenReturn(transactionInfoInSecondBlock);
+        when(receiptStore.getInMainChain(rskTxHash.getBytes(), blockStore)).thenReturn(Optional.of(transactionInfo));
+        when(receiptStore.getInMainChain(rskTxHashInSecondBlock.getBytes(), blockStore)).thenReturn(Optional.of(transactionInfoInSecondBlock));
 
         ReleaseCreationInformationGetter information = new ReleaseCreationInformationGetter(
                 receiptStore,
@@ -175,7 +176,7 @@ public class ReleaseCreationInformationGetterTest {
         when(blockStore.getBlockByHash(blockHash.getBytes())).thenReturn(block);
 
         ReceiptStore receiptStore = mock(ReceiptStore.class);
-        when(receiptStore.getInMainChain(rskTxHash.getBytes(), blockStore)).thenReturn(transactionInfo);
+        when(receiptStore.getInMainChain(rskTxHash.getBytes(), blockStore)).thenReturn(Optional.of(transactionInfo));
 
         ReleaseCreationInformationGetter information = new ReleaseCreationInformationGetter(
                 receiptStore,
@@ -211,7 +212,7 @@ public class ReleaseCreationInformationGetterTest {
         when(blockStore.getBlockByHash(blockHash.getBytes())).thenReturn(block);
 
         ReceiptStore receiptStore = mock(ReceiptStore.class);
-        when(receiptStore.getInMainChain(rskTxHash.getBytes(), blockStore)).thenReturn(transactionInfo);
+        when(receiptStore.getInMainChain(rskTxHash.getBytes(), blockStore)).thenReturn(Optional.of(transactionInfo));
 
         ReleaseCreationInformationGetter information = new ReleaseCreationInformationGetter(
                 receiptStore,
@@ -250,7 +251,7 @@ public class ReleaseCreationInformationGetterTest {
         when(blockStore.getBestBlock()).thenReturn(block);
 
         ReceiptStore receiptStore = mock(ReceiptStore.class);
-        when(receiptStore.getInMainChain(rskTxHash.getBytes(), blockStore)).thenReturn(transactionInfo);
+        when(receiptStore.getInMainChain(rskTxHash.getBytes(), blockStore)).thenReturn(Optional.of(transactionInfo));
 
         ReleaseCreationInformationGetter information = new ReleaseCreationInformationGetter(
                 receiptStore,

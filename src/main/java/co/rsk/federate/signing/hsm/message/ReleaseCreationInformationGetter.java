@@ -59,7 +59,7 @@ public class ReleaseCreationInformationGetter {
         Keccak256 rskTxHash,
         BtcTransaction btcTransaction
     ) throws HSMReleaseCreationInformationException {
-        TransactionInfo transactionInfo = receiptStore.getInMainChain(rskTxHash.getBytes(), blockStore);
+        TransactionInfo transactionInfo = receiptStore.getInMainChain(rskTxHash.getBytes(), blockStore).orElse(null);
         if (transactionInfo == null) {
             String message = String.format(
                 "Transaction hash %s could not be found in best chain",
@@ -123,7 +123,7 @@ public class ReleaseCreationInformationGetter {
         }
 
         for (Transaction transaction : block.getTransactionsList()) {
-            TransactionInfo transactionInfo = receiptStore.getInMainChain(transaction.getHash().getBytes(), blockStore);
+            TransactionInfo transactionInfo = receiptStore.getInMainChain(transaction.getHash().getBytes(), blockStore).orElse(null);
             TransactionReceipt transactionReceipt = transactionInfo.getReceipt();
             transactionReceipt.setTransaction(transaction);
             Optional<ReleaseCreationInformation> optionalReleaseCreationInformation =

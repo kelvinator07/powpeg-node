@@ -264,7 +264,7 @@ public class BtcReleaseClientTest {
         when(blockStore.getBlockByHash(blockHash1.getBytes())).thenReturn(block1);
         when(txInfo1.getReceipt()).thenReturn(txReceipt1);
         when(txInfo1.getBlockHash()).thenReturn(blockHash1.getBytes());
-        when(receiptStore.getInMainChain(hash1.getBytes(), blockStore)).thenReturn(txInfo1);
+        when(receiptStore.getInMainChain(hash1.getBytes(), blockStore)).thenReturn(Optional.of(txInfo1));
 
         Keccak256 blockHash2 = createHash(3);
         Block block2 = mock(Block.class);
@@ -274,7 +274,7 @@ public class BtcReleaseClientTest {
         when(blockStore.getBlockByHash(blockHash2.getBytes())).thenReturn(block2);
         when(txInfo2.getReceipt()).thenReturn(txReceipt2);
         when(txInfo2.getBlockHash()).thenReturn(blockHash2.getBytes());
-        when(receiptStore.getInMainChain(hash2.getBytes(), blockStore)).thenReturn(txInfo2);
+        when(receiptStore.getInMainChain(hash2.getBytes(), blockStore)).thenReturn(Optional.of(txInfo2));
 
         ReleaseCreationInformationGetter releaseCreationInformationGetter =
             new ReleaseCreationInformationGetter(
